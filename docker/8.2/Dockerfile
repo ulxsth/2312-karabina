@@ -58,9 +58,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
 
-# Add missing extensions
-RUN apt-get install -y php8.2-mbstring
-
 EXPOSE 8000
 
 ENTRYPOINT ["start-container"]
