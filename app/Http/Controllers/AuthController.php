@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 
 class AuthController extends Controller {
@@ -12,20 +13,33 @@ class AuthController extends Controller {
      * @return RedirectResponse
      */
 
-    public function redirectToSpotify()
-    {
-        // ユーザに認証を要求するためのリダイレクトURLを生成
-        $auth_url = $this->authorize_url .'?'.http_build_query([
+    private $client_id;
+    private $client_secret;
+    private $redirect_uri;
+    private $authorize_url = 'https://accounts.spotify.com/authorize';
+
+    public function __construct() {
+        $this->client_id = getenv('SPOTIFY_CLIENT_ID');
+        $this->client_secret = getenv('SPOTIFY_CLIENT_SECRET');
+        $this->redirect_uri = getenv('SPOTIFY_REDIRECT_URI');
+    }
+
+    /**
+     * ユーザをSpotify認証ページへリダイレクトさせる。
+     * @return void
+     */
+    public function redirectToSpotify() {
+        // ユーザに認証を要求するためのリダイレクトURLを生成する
+        $auth_url = $this->authorize_url . '?' . http_build_query([
             'client_id' => $this->client_id,
             'redirect_uri' => $this->redirect_uri,
             'response_type' => 'code',
-            'scope' => '', // 必要なスコープを追加
+            'scope' => 'user-read-top', // 必要なスコープがあればを追加
         ]);
 
-        // Guzzleを使用してリダイレクト
+        // Guzzleを使用してリダイレクトする
         $client = new Client();
         $client->get($auth_url);
-
         exit();
     }
 
@@ -33,7 +47,7 @@ class AuthController extends Controller {
      * Spotifyからのコールバックを処理する。
      *
      * @param Request $request
-     * @return void
+     * @return RedirectResponse
      */
     public function handleSpotifyCallback(Request $request)
     {
@@ -54,7 +68,6 @@ class AuthController extends Controller {
         */
         $token = $response->json()['access_token'];
 
-        // Spotify APIへのユーザ情報取得
         $client = new Client();
 
         $form_params = [
@@ -90,5 +103,74 @@ class AuthController extends Controller {
         \Log::debug($response->getBody());//一旦ログで出力してみる
 
         return redirect()->to('/home');
+    }
+
+    public function requestSpotifyTokenByCode($code)
+    {
+        try{
+        $client = new Client();
+
+        $form_params = [
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'redirect_uri' => env('SPOTIFY_REDIRECT_URI'),
+            'client_id' => env('SPOTIFY_CLIENT_ID'),
+            'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
+        ];
+
+        $headers = [
+            'Content-Type' => 'application/x-www-form-urlencoded',
+        ];
+
+        $options = [
+            'form_params' => $form_params,
+            'headers' => $headers,
+        ];
+
+        $response = $client->post('https://accounts.spotify.com/api/token', $options);
+
+        //URLからアクセストークンの抽出を行う
+        $responseData = json_decode($response->getBody(), true);
+        $accessToken = $responseData['access_token'];
+
+        return $accessToken;
+        }catch (RequestException $e){
+            // エラーが発生した場合は null を返す
+            return null;
+        }
+    }
+
+    public function requestSpotifyTokenByRefreshToken($refreshToken){
+
+        try{
+        $client = new Client();
+
+        $form_params = [
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $refreshToken,
+            'client_id' => env('SPOTIFY_CLIENT_ID'),
+            'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
+        ];
+
+        $headers = [
+            'Content-Type' => 'application/x-www-form-urlencoded',
+        ];
+
+        $options = [
+            'form_params' => $form_params,
+            'headers' => $headers,
+        ];
+
+        $response = $client->post('https://accounts.spotify.com/api/token', $options);
+
+        //URLからアクセストークンの抽出を行う
+        $responseData = json_decode($response->getBody(), true);
+        $accessToken = $responseData['access_token'];
+
+        return $accessToken;
+        } catch (RequestException $e){
+            // エラーが発生した場合は null を返す
+            return null;
+        }
     }
 }
