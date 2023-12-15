@@ -1,6 +1,4 @@
 <?php
-
-use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,14 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
-
-Route::get('/auth/spotify', function (Request $request) {
-    $authController = new AuthController();
-    $authController->redirectToSpotify();
-});
-
-Route::get('/auth/spotify/callback', function (Request $request) {
-    $authController = new AuthController();
-    $authController->handleSpotifyCallback($request);
 });
