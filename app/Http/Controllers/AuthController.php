@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client;
 
 class AuthController extends Controller {
