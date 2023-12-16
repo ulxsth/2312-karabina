@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('spotify_users', function (Blueprint $table) {
             $table->string('spotify_id')->primary();
             $table->string('access_token');
             $table->string('refresh_token');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('spotify_users');
     }
 };
