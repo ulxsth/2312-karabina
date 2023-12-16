@@ -7,12 +7,6 @@ use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 
 class AuthController extends Controller {
-    /**
-     * ユーザをSpotify認証ページへリダイレクトさせる。
-     *
-     * @return RedirectResponse
-     */
-
     private $client_id;
     private $client_secret;
     private $redirect_uri;
