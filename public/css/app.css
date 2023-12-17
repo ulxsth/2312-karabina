@@ -1,38 +1,38 @@
 body{
 	text-align: center;
-	height: 850px;
 	background: rgb(0,0,0);
-	background: linear-gradient(0deg, rgba(0,0,0,0.7259278711484594) 0%, rgba(139,166,148,0.865983893557423) 40%, rgba(136,164,145,1) 68%, rgba(62,138,72,1) 100%);
-
+background: linear-gradient(0deg, rgba(0,0,0,0.7259278711484594) 0%, rgba(1,1,1,1) 4%, rgba(117,200,173,1) 25%, rgba(3,29,6,1) 100%);
 }
 
 body::before{
-	height: 100%;
 	content: '';
 	position: absolute;
 	top: 0;
 	right: 0;
 	bottom: 0;
-	left: 80%;
+	left: 0;
 	background-color: rgba(0,0,0,0.2);
-}
-
-img{
-	position: absolute;
-	right: 5%;
-	bottom: 3%;
 	z-index: -1;
 }
 
-h1{
+
+img{
+	position: absolute;
+	right: 18%;
+	bottom: 0%;
+	width: 65%;
+	z-index: -1;
+}
+
+.logo h1{
 	font-family: 'Londrina Sketch', sans-serif;
 	color:aliceblue;
 	font-weight: lighter;
 	font-size: 500%;
-	padding-top: 5%;
+	padding-top: 10%;
 }
 
-span{
+.logo span{
 	font-size: 50%;
 	font-family: 'Lusitana', serif;
 }
