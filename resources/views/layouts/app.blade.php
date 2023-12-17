@@ -17,7 +17,7 @@
         @yield('head')
     </head>
     <body>
-        <img src="\gear.png">
+        <img src="\chara.png">
         @yield('content')
     </body>
 </html>
