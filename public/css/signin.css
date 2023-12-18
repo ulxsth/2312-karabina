@@ -2,3 +2,9 @@ button {
     width: 300px;
     border-radius: 50px;
 }
+
+button:hover {
+    background-color: #2ebd59;
+    transition-duration: 0.4s;
+    color: white;
+}
