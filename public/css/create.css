@@ -16,7 +16,7 @@ select{
 	padding: 8px;
 	font-size: medium;
   background-color: rgba(255,255,255,0.5);
-	z-index: 2;
+	z-index: 4;
 }
 
 select:hover{
@@ -69,46 +69,6 @@ select:hover{
 	border-color: #ffffff;
 }
 
-
-/*
-:root {
-	--gradient: linear-gradient(90deg, #36daf7 10%, #ed36f7 90%);
-}
-
-.btn-gradient {
-	font-family: 'Lusitana', serif;
-	font-size: 20px;
-	padding: 15px 3em 15px 3em;
-	position: relative;
-	cursor: pointer;
-	width: 22rem;
-	height: 3rem;
-	line-height: 3rem;
-	border-radius: 2rem;
-	background-image: var(--gradient);
-	color: white;
-	text-decoration: none;
-	text-align: center;
-	z-index: 0;
-}
-
-.btn-gradient::before {
-	position: absolute;
-	inset: 0;
-	background-image: var(--gradient);
-	transform: translate3d(0px, 15px, 0) scale(0.8);
-	opacity: 0;
-	transition: all 0.3s;
-	content: "";
-	z-index: -1;
-}
-
-.btn-gradient:hover::before {
-	opacity: 0.7;
-	filter: blur(20px);
-}
-*/
-
 a{
   position:relative;
   padding: 15px 30px;
@@ -120,11 +80,7 @@ a{
   font-size: 24px;
   overflow: hidden; 
   transition: .15s;
-
-
 }
-
-
 
 a:hover{
   color: #888;

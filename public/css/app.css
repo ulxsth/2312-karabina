@@ -1,9 +1,10 @@
 body{
+	margin: 0;
 	text-align: center;
 	background: rgb(0,0,0);
-background: linear-gradient(0deg, rgba(0,0,0,0.7259278711484594) 0%, rgba(1,1,1,1) 4%, rgba(117,200,173,1) 25%, rgba(3,29,6,1) 100%);
+  background: linear-gradient(0deg, rgba(0,0,0,0.7259278711484594) 0%, rgba(1,1,1,1) 4%, rgba(117,200,173,1) 25%, rgb(241, 93, 217) 100%);
 }
-/*ピンクrgb(226, 18, 191)・緑rgba(3,29,6,1)*/
+/*ピンクrgb(241, 93, 217)・緑rgba(3,29,6,1)*/
 body::before{
 	content: '';
 	position: absolute;
@@ -12,9 +13,19 @@ body::before{
 	bottom: 0;
 	left: 0;
 	background-color: rgba(0,0,0,0.2);
-	z-index: -1;
+	z-index: -2;
 }
 
+.space{
+	position: absolute;
+	top: 0;
+	right: 17%;
+	bottom: 0;
+	left: 17%;
+	background-color: white;
+	opacity: 0.25;
+	z-index: -1;
+}
 
 img{
 	position: absolute;
@@ -30,9 +41,60 @@ img{
 	font-weight: lighter;
 	font-size: 500%;
 	padding-top: 10%;
+	animation:7s linear infinite rotation;
+
+	transition: 1s;
+}
+
+.logo h1:hover {
+	text-shadow:
+		0 0 7px #fff,
+		0 0 10px #fff,
+		0 0 20px #fff,
+		0 0 40px #b2ebf5,
+		0 0 80px #b2ebf5,
+		0 0 90px #b2ebf5
+}
+
+@keyframes rotation{
+  0%{ transform:rotateY(0);}
+  100%{ transform:rotateY(360deg); }
 }
 
 .logo span{
 	font-size: 50%;
 	font-family: 'Lusitana', serif;
+}
+
+canvas{
+	display: block;
+	vertical-align: bottom;
+
+}
+ /* ---- particles.js container ---- */
+ #particles-js{ 
+	position:absolute;
+	width: 100%;
+	height: 100%;
+	background-image: url("");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+	z-index: -1; 
+}
+
+.js-count-particles{
+	font-size: 1.1em;
+}
+#stats, .count-particles{
+	-webkit-user-select: none;
+
+	margin-left: 5px;
+} 
+#stats{
+	border-radius: 3px 3px 0 0;
+	overflow: hidden;
+}
+.count-particles{
+	border-radius: 0 0 3px 3px;
 }
