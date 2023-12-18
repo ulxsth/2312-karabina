@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('head')
+<link rel="stylesheet" href="{{ asset('css/create.css') }}">
+@endsection
+
 @section('content')
 <div class="logo">
     <h1>Recentri <span>for Spotify</span></h1>
@@ -8,7 +12,10 @@
 <div class="create-playlist">
   <form method="POST">
         @csrf
-        <input type="text" name="playlist-name" value=""><br>
+        <div class="input-group">
+					<input id="name" type="text" required="" autocomplete="off">
+					<label for="name">#new playlist</label>
+			</div>
 
         <select name="month">
             @for ($i = 1; $i <= 12; $i++)
@@ -16,7 +23,13 @@
             @endfor
         </select>
 		<br>
-		<button type="submit">Create New Playlist</button>
+		<a href="#">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+				Create New Playlist
+			</a>
   </form>
 
 </div>

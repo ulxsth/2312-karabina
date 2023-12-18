@@ -1,9 +1,10 @@
 body{
+	margin: 0;
 	text-align: center;
 	background: rgb(0,0,0);
-background: linear-gradient(0deg, rgba(0,0,0,0.7259278711484594) 0%, rgba(1,1,1,1) 4%, rgba(117,200,173,1) 25%, rgba(3,29,6,1) 100%);
+  background: linear-gradient(0deg, rgba(0,0,0,0.7259278711484594) 0%, rgba(1,1,1,1) 4%, rgba(117,200,173,1) 25%, rgb(241, 93, 217) 100%);
 }
-
+/*ピンクrgb(241, 93, 217)・緑rgba(3,29,6,1)*/
 body::before{
 	content: '';
 	position: absolute;
@@ -12,24 +13,53 @@ body::before{
 	bottom: 0;
 	left: 0;
 	background-color: rgba(0,0,0,0.2);
+	z-index: -2;
+}
+
+.space{
+	position: absolute;
+	top: 0;
+	right: 17%;
+	bottom: 0;
+	left: 17%;
+	background-color: white;
+	opacity: 0.25;
 	z-index: -1;
 }
 
 
 img{
 	position: absolute;
-	right: 18%;
+	right: 17%;
 	bottom: 0%;
-	width: 65%;
+	width: 68%;
 	z-index: -1;
 }
 
 .logo h1{
-	font-family: 'Londrina Sketch', sans-serif;
+	font-family: 'Rubik Lines', sans-serif;
 	color:aliceblue;
 	font-weight: lighter;
 	font-size: 500%;
 	padding-top: 10%;
+	animation:7s linear infinite rotation;
+
+	transition: 1s;
+}
+
+.logo h1:hover {
+	text-shadow:
+		0 0 7px #fff,
+		0 0 10px #fff,
+		0 0 20px #fff,
+		0 0 40px #b2ebf5,
+		0 0 80px #b2ebf5,
+		0 0 90px #b2ebf5
+}
+
+@keyframes rotation{
+  0%{ transform:rotateY(0);}
+  100%{ transform:rotateY(360deg); }
 }
 
 .logo span{
@@ -37,96 +67,35 @@ img{
 	font-family: 'Lusitana', serif;
 }
 
-button{
-	margin-top: 30px;
-	padding: 15px;
-	font-size: 40px;
-	color:black;
-	font-weight: lighter;
-	z-index: 2;
+canvas{
+	display: block;
+	vertical-align: bottom;
+
 }
-input{
-	font-size: 50%;
-	z-index: 2;
-}
-select{
-	text-align: center;
-	margin: 1% 0px 2% 0px;
-	padding: 8px;
-	font-size: 200%;
-	z-index: 2;
+ /* ---- particles.js container ---- */
+ #particles-js{ 
+	position:absolute;
+	width: 100%;
+	height: 100%;
+	background-image: url("");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+	z-index: -1; 
 }
 
-.input-group {
-	position: relative;
-	margin: 1em 0 1em 0;
+.js-count-particles{
+	font-size: 1.1em;
 }
+#stats, .count-particles{
+	-webkit-user-select: none;
 
-.input-group input {
-	padding: 0.8em;
-	width: 30%;
-	outline: none;
-	border: 2px solid #ffffff;
-	border-radius: 0.5rem;
-	background-color: transparent;
-	font-size: 100%;
+	margin-left: 5px;
+} 
+#stats{
+	border-radius: 3px 3px 0 0;
+	overflow: hidden;
 }
-
-.input-group label {
-	position: absolute;
-	top: 50%;
-	left: 35%;
-	transform: translateY(-50%);
-	margin-left: 1em;
-	color: #ffffff;
-	pointer-events: none;
-	transition: all 0.3s ease;
-}
-
-.input-group :is(input:focus, input:valid)~label {
-	transform: translateY(-130%) scale(.8);
-	margin: 0em;
-	margin-left: 0.5em;
-	padding: 0.4em;
-	color: #37bcf8;
-	background-color: #ffffff;
-}
-
-.input-group :is(input:focus, input:valid) {
-	border-color: #37bcf8;
-}
-:root {
-	--gradient: linear-gradient(90deg, #36daf7 10%, #ed36f7 90%);
-}
-
-.btn-gradient {
-	font-size: 20px;
-	padding: 15px 3em 15px 3em;
-	position: relative;
-	cursor: pointer;
-	width: 22rem;
-	height: 3rem;
-	line-height: 3rem;
-	border-radius: 2rem;
-	background-image: var(--gradient);
-	color: white;
-	text-decoration: none;
-	text-align: center;
-	z-index: 0;
-}
-
-.btn-gradient::before {
-	position: absolute;
-	inset: 0;
-	background-image: var(--gradient);
-	transform: translate3d(0px, 15px, 0) scale(0.8);
-	opacity: 0;
-	transition: all 0.3s;
-	content: "";
-	z-index: -1;
-}
-
-.btn-gradient:hover::before {
-	opacity: 0.7;
-	filter: blur(20px);
+.count-particles{
+	border-radius: 0 0 3px 3px;
 }
