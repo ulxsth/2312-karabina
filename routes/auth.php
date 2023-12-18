@@ -8,7 +8,7 @@ Route::get('/spotify', function (Request $request) {
   $authController->redirectToSpotify();
 });
 
-Route::get(env("SPOTIFY_REDIRECT_URI"), function (Request $request) {
+Route::get(trim(str_replace("auth/", "", env("SPOTIFY_REDIRECT_URI"))), function (Request $request) {
   $authController = new AuthController();
   $authController->handleSpotifyCallback($request);
 });
