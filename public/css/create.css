@@ -1,0 +1,198 @@
+button{
+	margin-top: 30px;
+	padding: 15px;
+	font-size: 40px;
+	color:black;
+	font-weight: lighter;
+	z-index: 2;
+}
+
+select{
+	font-family: 'Lusitana', serif;
+	text-align: center;
+	color: rgb(10, 44, 14);
+	border-radius: 2rem;
+	margin: 1% 0px 2% 0px;
+	padding: 8px;
+	font-size: medium;
+  background-color: rgba(255,255,255,0.5);
+	z-index: 2;
+}
+
+select:hover{
+	transform: scale(1.5s);
+	background-color: white;
+}
+
+.input-group {
+	position: relative;
+	margin: 1em 0 1em 0;
+}
+
+.input-group input {
+	color: rgba(255,255,255,0.5);
+	padding: 0.8em;
+	width: 30%;
+	outline: none;
+	border: 4px solid rgba(255,255,255,0.5);
+	border-radius: 0.5rem;
+	background-color: transparent;
+	font-size: 100%;
+}
+
+.input-group label {
+	font-family: 'Lusitana', serif;
+	position: absolute;
+	top: 50%;
+	left: 35%;
+	transform: translateY(-50%);
+	margin-left: 1em;
+	color: #ffffff;
+	pointer-events: none;
+	transition: all 0.3s ease;
+}
+
+.input-group :is(input:focus, input:valid)~label {
+	transform: translateY(-130%) scale(.8);
+	margin: 0em;
+	margin-left: 0.5em;
+	padding: 0.4em;
+	color: #37bcf8;
+	background-color: #ffffff;
+}
+
+.input-group :is(input:focus, input:valid) {
+	border-color: #ffffff;
+}
+
+.input-group input:hover{
+	border-color: #ffffff;
+}
+
+
+/*
+:root {
+	--gradient: linear-gradient(90deg, #36daf7 10%, #ed36f7 90%);
+}
+
+.btn-gradient {
+	font-family: 'Lusitana', serif;
+	font-size: 20px;
+	padding: 15px 3em 15px 3em;
+	position: relative;
+	cursor: pointer;
+	width: 22rem;
+	height: 3rem;
+	line-height: 3rem;
+	border-radius: 2rem;
+	background-image: var(--gradient);
+	color: white;
+	text-decoration: none;
+	text-align: center;
+	z-index: 0;
+}
+
+.btn-gradient::before {
+	position: absolute;
+	inset: 0;
+	background-image: var(--gradient);
+	transform: translate3d(0px, 15px, 0) scale(0.8);
+	opacity: 0;
+	transition: all 0.3s;
+	content: "";
+	z-index: -1;
+}
+
+.btn-gradient:hover::before {
+	opacity: 0.7;
+	filter: blur(20px);
+}
+*/
+
+a{
+  position:relative;
+  padding: 15px 30px;
+  display: inline-block;
+  color: white;
+  text-transform:uppercase;
+  letter-spacing: 4px;
+  text-decoration:none;
+  font-size: 24px;
+  overflow: hidden; 
+  transition: .15s;
+
+
+}
+
+
+
+a:hover{
+  color: #888;
+  background: white;
+  box-shadow: 0 0 10px white, 0 0 40px white, 0 0 80px white;
+  transition-delay: .9s;
+  animation : infinite;
+} 
+
+a div{
+  position: absolute;
+  display:block;
+}
+
+a div:nth-child(1){
+  top:0;
+  left: -100%;
+  width:100%;;
+  height:2px;
+  background: linear-gradient(90deg,transparent, white);
+
+}
+
+a:hover div:nth-child(1){
+  left:100%;
+  transition:.75s;
+}
+
+a div:nth-child(3){
+  bottom:0;
+  right: -100%;
+  width:100%;;
+  height:2px;
+  background: linear-gradient(270deg,transparent, white);
+}
+
+a:hover div:nth-child(3){
+  right:100%;
+  transition:.5s;
+  transition-delay:.6s;
+}
+
+a div:nth-child(2){
+  top:-100%;
+  right:0;
+  height:100%;;
+  width:2px;
+  background: linear-gradient(180deg,transparent, white);
+}
+
+a:hover div:nth-child(2){
+  top:100%;
+  transition: 1s;
+  transition-delay: .25s;
+
+}
+
+a div:nth-child(4){
+  bottom:-100%;
+  left:0;
+  height:100%;;
+  width:2px;
+  background: linear-gradient(45deg,transparent,white);
+}
+
+a:hover div:nth-child(4){
+  bottom:100%;
+  transition: .5s;
+  transition-delay: .75s;
+
+}

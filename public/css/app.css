@@ -3,7 +3,7 @@ body{
 	background: rgb(0,0,0);
 background: linear-gradient(0deg, rgba(0,0,0,0.7259278711484594) 0%, rgba(1,1,1,1) 4%, rgba(117,200,173,1) 25%, rgba(3,29,6,1) 100%);
 }
-
+/*ピンクrgb(226, 18, 191)・緑rgba(3,29,6,1)*/
 body::before{
 	content: '';
 	position: absolute;
@@ -18,14 +18,14 @@ body::before{
 
 img{
 	position: absolute;
-	right: 18%;
+	right: 17%;
 	bottom: 0%;
-	width: 65%;
+	width: 68%;
 	z-index: -1;
 }
 
 .logo h1{
-	font-family: 'Londrina Sketch', sans-serif;
+	font-family: 'Rubik Lines', sans-serif;
 	color:aliceblue;
 	font-weight: lighter;
 	font-size: 500%;
@@ -35,98 +35,4 @@ img{
 .logo span{
 	font-size: 50%;
 	font-family: 'Lusitana', serif;
-}
-
-button{
-	margin-top: 30px;
-	padding: 15px;
-	font-size: 40px;
-	color:black;
-	font-weight: lighter;
-	z-index: 2;
-}
-input{
-	font-size: 50%;
-	z-index: 2;
-}
-select{
-	text-align: center;
-	margin: 1% 0px 2% 0px;
-	padding: 8px;
-	font-size: 200%;
-	z-index: 2;
-}
-
-.input-group {
-	position: relative;
-	margin: 1em 0 1em 0;
-}
-
-.input-group input {
-	padding: 0.8em;
-	width: 30%;
-	outline: none;
-	border: 2px solid #ffffff;
-	border-radius: 0.5rem;
-	background-color: transparent;
-	font-size: 100%;
-}
-
-.input-group label {
-	position: absolute;
-	top: 50%;
-	left: 35%;
-	transform: translateY(-50%);
-	margin-left: 1em;
-	color: #ffffff;
-	pointer-events: none;
-	transition: all 0.3s ease;
-}
-
-.input-group :is(input:focus, input:valid)~label {
-	transform: translateY(-130%) scale(.8);
-	margin: 0em;
-	margin-left: 0.5em;
-	padding: 0.4em;
-	color: #37bcf8;
-	background-color: #ffffff;
-}
-
-.input-group :is(input:focus, input:valid) {
-	border-color: #37bcf8;
-}
-:root {
-	--gradient: linear-gradient(90deg, #36daf7 10%, #ed36f7 90%);
-}
-
-.btn-gradient {
-	font-size: 20px;
-	padding: 15px 3em 15px 3em;
-	position: relative;
-	cursor: pointer;
-	width: 22rem;
-	height: 3rem;
-	line-height: 3rem;
-	border-radius: 2rem;
-	background-image: var(--gradient);
-	color: white;
-	text-decoration: none;
-	text-align: center;
-	z-index: 0;
-}
-
-.btn-gradient::before {
-	position: absolute;
-	inset: 0;
-	background-image: var(--gradient);
-	transform: translate3d(0px, 15px, 0) scale(0.8);
-	opacity: 0;
-	transition: all 0.3s;
-	content: "";
-	z-index: -1;
-}
-
-.btn-gradient:hover::before {
-	opacity: 0.7;
-	filter: blur(20px);
 }
