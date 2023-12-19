@@ -32,10 +32,12 @@ class AuthController extends Controller {
             'scope' => 'user-read-top', // 必要なスコープがあればを追加
         ]);
 
-        // Guzzleを使用してリダイレクトする
+        /* Guzzleを使用してリダイレクトする
         $client = new Client();
         $client->get($auth_url);
         exit();
+        */
+        return redirect()->away($auth_url);
     }
 
     /**
