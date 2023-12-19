@@ -40,7 +40,7 @@
 					<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
 
 					<div class = "space"></div>
-					<img src="/images/chara.png">
+					<img src="\chara2.png">
 					<script src="{{ asset('js/app.js') }}"></script>
         @yield('content')
     </body>
