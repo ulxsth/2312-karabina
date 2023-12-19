@@ -1,4 +1,4 @@
-button {
+/* button {
     width: 300px;
     border-radius: 50px;
 }
@@ -7,4 +7,21 @@ button:hover {
     background-color: #2ebd59;
     transition-duration: 0.4s;
     color: white;
-}
+} */
+
+button{
+    width: 300px;
+    border-radius: 50px;
+    color: white;
+    text-decoration: none;
+    overflow: hidden; 
+    border: none;
+  }
+  
+button:hover{
+    color: #888;
+    background: white;
+    box-shadow: 0 0 10px white, 0 0 40px white, 0 0 80px white;
+    transition-duration: 0.3s;
+    animation : infinite;
+  } 
