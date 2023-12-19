@@ -1,0 +1,44 @@
+.logo-block {
+    text-align: left;
+}
+
+.logo {
+    text-align: left;
+    display: inline-block;
+}
+
+.logo h1{
+    padding: 0;
+    margin: 0;
+}
+
+.results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-header {
+	font-family: 'Lusitana', serif;
+    color:aliceblue;
+    font-weight: lighter;
+    font-size: 500%;
+    margin-bottom: 0;
+}
+
+.playlist-url {
+    width: 40%;
+    margin: 10px 0;
+    padding: 10px 0;
+    background-color: rgba(255,255,255,0.5);
+    border: 4px solid rgba(255,255,255,0.5);
+}
+
+.results img{
+    position: static;
+    width: 35%;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.5);;
+}
+
+
