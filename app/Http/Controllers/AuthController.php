@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
@@ -56,13 +57,13 @@ class AuthController extends Controller {
             'client_id' => env('SPOTIFY_CLIENT_ID'),
             'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
         ]);
-        /*　エラー処理あり
+        /*　エラー処理あり*/
         if ($response->successful()) {
         $token = $response->json()['access_token'];
         } else {
         return redirect()->back()->with('error', 'Failed to retrieve Spotify token');
         }
-        */
+        
         $token = $response->json()['access_token'];
 
         $client = new Client();
