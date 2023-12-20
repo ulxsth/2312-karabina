@@ -92,13 +92,13 @@ class AuthController extends Controller {
         // Spotify APIへのユーザ情報取得の例
         $userInfoResponse = $client->get('https://api.spotify.com/v1/me', [
             'headers' => [
-                'Authorization' => 'Bearer'. $token,
+                'Authorization' => 'Bearer ' . $token,
             ],
         ]);
 
         // 取得したユーザ情報
         $userInfo = json_decode($userInfoResponse->getBody(), true);
-        \Log::debug($response->getBody());//一旦ログで出力してみる
+        \Log::debug($userInfo);//一旦ログで出力してみる
 
         return redirect()->to('/home');
     }
