@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
@@ -25,19 +25,20 @@ class AuthController extends Controller {
      * @return void
      */
     public function redirectToSpotify() {
+        // 必要なスコープがあれば配列で定義(現：tracks取得可能)
+        $scopes = [
+            'user-library-read',
+            'playlist-modify-private',
+        ];
+
         // ユーザに認証を要求するためのリダイレクトURLを生成する
         $auth_url = $this->authorize_url . '?' . http_build_query([
             'client_id' => $this->client_id,
             'redirect_uri' => $this->redirect_uri,
             'response_type' => 'code',
-            'scope' => 'user-read-top', // 必要なスコープがあればを追加
+            'scope' => implode(' ', $scopes), // 配列を半角スペースで連結
         ]);
 
-        /* Guzzleを使用してリダイレクトする
-        $client = new Client();
-        $client->get($auth_url);
-        exit();
-        */
         return redirect()->away($auth_url);
     }
 
@@ -49,29 +50,33 @@ class AuthController extends Controller {
      */
     public function handleSpotifyCallback(Request $request)
     {
-        // Spotifyからのコールバックで受け取った認証コードを使ってトークンを取得する
-        $response = Http::asForm()->post('https://accounts.spotify.com/api/token', [
-            'grant_type' => 'authorization_code',
-            'code' => $request->code,
-            'redirect_uri' => env('SPOTIFY_REDIRECT_URI'),
-            'client_id' => env('SPOTIFY_CLIENT_ID'),
-            'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
-        ]);
-        /*　エラー処理あり*/
-        if ($response->successful()) {
-        $token = $response->json()['access_token'];
-        } else {
-        return redirect()->back()->with('error', 'Failed to retrieve Spotify token');
+        try {
+            // Spotifyからのコールバックで受け取った認証コードを使ってトークンを取得する
+            $response = Http::asForm()->post('https://accounts.spotify.com/api/token', [
+                'grant_type' => 'authorization_code',
+                'code' => $request->code,
+                'redirect_uri' => env('SPOTIFY_REDIRECT_URI'),
+                'client_id' => env('SPOTIFY_CLIENT_ID'),
+                'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
+            ]);
+            /*　エラー処理あり*/
+            if ($response->successful()) {
+                $token = $response->json()['access_token'];
+                return response()->json(['access_token' => $token], 200);
+            } else {
+                return response()->json(['error' => 'Failed to retrieve Spotify token'], 500);
+            }
+        } catch (RequestException $e) {
+            \Log::error('Spotify Token Request Error: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to retrieve Spotify token'], 500);
         }
-        
-        $token = $response->json()['access_token'];
 
         $client = new Client();
 
         $form_params = [
             'grant_type' => 'client_credentials',
-            'client_id' => 'client_id',
-            'client_secret' => 'client_secret'
+            'client_id' => env('SPOTIFY_CLIENT_ID'),
+            'client_secret' => env('SPOTIFY_CLIENT_SECRET')
         ];
 
         $headers = [
@@ -87,53 +92,50 @@ class AuthController extends Controller {
 
         // 取得したトークンを使用し、Spotify APIへのリクエストを行う
         $token = json_decode($response->getBody(), true)['access_token'];
-        \Log::debug($response->getBody());//一旦ログで出力してみる
-
-        // Spotify APIへのユーザ情報取得の例
-        $userInfoResponse = $client->get('https://api.spotify.com/v1/me', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-            ],
-        ]);
-
-        // 取得したユーザ情報
-        $userInfo = json_decode($userInfoResponse->getBody(), true);
-        \Log::debug($userInfo);//一旦ログで出力してみる
 
         return redirect()->to('/home');
     }
 
-    public function requestSpotifyTokenByCode($code)
+    /**
+    * Spotifyからのコードを使用してトークンを取得する。
+    *
+    * @param string $code
+    * @return string|null
+    */
+    private function requestSpotifyTokenByCode($code)
     {
-        try{
-        $client = new Client();
+        try {
+            $client = new Client();
 
-        $form_params = [
-            'grant_type' => 'authorization_code',
-            'code' => $code,
-            'redirect_uri' => env('SPOTIFY_REDIRECT_URI'),
-            'client_id' => env('SPOTIFY_CLIENT_ID'),
-            'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
-        ];
+            $form_params = [
+                'grant_type' => 'authorization_code',
+                'code' => $code,
+                'redirect_uri' => env('SPOTIFY_REDIRECT_URI'),
+                'client_id' => env('SPOTIFY_CLIENT_ID'),
+                'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
+            ];
 
-        $headers = [
-            'Content-Type' => 'application/x-www-form-urlencoded',
-        ];
+            $headers = [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ];
 
-        $options = [
-            'form_params' => $form_params,
-            'headers' => $headers,
-        ];
+            $options = [
+                'form_params' => $form_params,
+                'headers' => $headers,
+            ];
 
-        $response = $client->post('https://accounts.spotify.com/api/token', $options);
+            $$response = $this->httpClient->post('https://accounts.spotify.com/api/token', $options);
 
-        //URLからアクセストークンの抽出を行う
-        $responseData = json_decode($response->getBody(), true);
-        $accessToken = $responseData['access_token'];
-
-        return $accessToken;
-        }catch (RequestException $e){
-            // エラーが発生した場合は null を返す
+            if ($response->getStatusCode() == 200) {
+                $responseData = json_decode($response->getBody(), true);
+                $accessToken = $responseData['access_token'];
+                return $accessToken;
+            } else {
+                \Log::error('Spotify Token Request Error: Unexpected status code ' . $response->getStatusCode());
+                return null;
+            }
+        } catch (RequestException $e) {
+            \Log::error('Spotify Token Request Error: ' . $e->getMessage());
             return null;
         }
     }
