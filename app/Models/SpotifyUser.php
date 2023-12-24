@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class SpotifyUser extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
+    protected $primaryKey = 'spotify_id';
 
     /**
      * Eloquentモデルに保存できる属性を指定

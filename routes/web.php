@@ -19,3 +19,6 @@ Route::get('/', function () {
 });
 Route::get('/auth/spotify', [AuthController::class, 'redirectToSpotify']);
 Route::get('/auth/spotify/callback', [AuthController::class, 'handleSpotifyCallback']);
+Route::get('/home', function () {
+    return view('welcome');
+});

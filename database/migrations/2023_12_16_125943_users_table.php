@@ -15,8 +15,8 @@ return new class extends Migration
             $table->string('spotify_id')->primary();
             $table->string('access_token');
             $table->string('refresh_token');
-            $table->integer('token_updated_at');
-            $table->integer('token_expire');
+            $table->timestamp('token_updated_at');
+            $table->timestamp('token_expire');
             $table->timestamps();
         });
     }
