@@ -13,7 +13,10 @@
 <div class="results">
     {{-- 作成したプレイリスト名を入れる --}}
     <h1 class="page-header">New Playlist</h1>
-    <div class="playlist-url">playlist url</div>
+    <div id="url" class="playlist-url">playlist url</div>
+		<button onclick="copy()">コピーする</button>
     <img src="" alt="playlist-thumbnail">
 </div>
+<script src="{{ asset('js/playlist_result.js') }}"></script>
+
 @endsection

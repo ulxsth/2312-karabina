@@ -1,0 +1,47 @@
+#slider {
+	//レンジスライダーの外枠の見た目
+	max-width: 500px;
+	margin-right: auto;
+	margin-left:auto;
+	//border: solid 1px #52c9af;
+	background: #ffe0f2;//transparent or #ffe0f2
+
+	//border:1px solid #eee;
+	border-radius: 1000px;
+	height: 10px;
+	// box-shadow: 0 0 10px white, 0 0 40px white, 0 0 80px white;
+	box-shadow: 0 0 10px rgb(241, 93, 217), 0 0 40px rgb(241, 93, 217), 0 0 80px rgb(241, 93, 217);
+	.noUi {
+		&-connect {
+			//ハンドル間の色
+			background: rgb(241, 93, 217);
+			// box-shadow: 0 0 10px rgb(0, 217, 255), 0 0 40px rgb(11, 179, 230), 0 0 80px rgb(102, 207, 233);
+			transition-delay: .9s;
+			animation : infinite;
+
+			//色候補
+			//緑　#52c9af
+			//ピンクrgb(241, 93, 217)
+			//
+
+		}
+		&-handle {
+			//ハンドルの見た目
+			opacity: 2;
+
+			height: 28px;
+			width: 28px;
+			border:1px solid #b8adad;
+			border-radius: 1000px;
+			background: #fff;
+			top: -10px;
+			&:before,
+			&:after { content:none; }
+		}
+		&-tooltip {
+			background-color: transparent;
+		}
+	}
+}
+
+

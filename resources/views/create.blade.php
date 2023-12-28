@@ -1,7 +1,9 @@
 @extends('layouts.app')
+@vite(['public/scss/app.scss','resources/js/app.js'])
 
 @section('head')
 <link rel="stylesheet" href="{{ asset('css/create.css') }}">
+<link rel="stylesheet" href="{{ asset('scss/app.scss') }}">
 @endsection
 
 @section('content')
@@ -17,11 +19,8 @@
 					<label for="name">#new playlist</label>
 			</div>
 
-        <select name="month">
-            @for ($i = 1; $i <= 12; $i++)
-              <option value="{{ $i }}">{{ $i }} month ago</option>
-            @endfor
-        </select>
+			<div id="slider"></div>
+
 		<br>
 		<a href="#">
 			<div></div>
@@ -29,9 +28,44 @@
 			<div></div>
 			<div></div>
 				Create New Playlist
-			</a>
-  </form>
+		</a><br>
 
+  </form>
 </div>
+
+<script>
+var slider = document.getElementById('slider');
+const valuesForSlider = [0,1,2,3,4,5,6,7,8,9,10];
+const Min = document.getElementById('Min');
+const Max = document.getElementById('Max');
+
+const format = {
+    to: function(value) {
+        return valuesForSlider[Math.round(value)];
+    },
+    from: function (value) {
+        return valuesForSlider.indexOf(Number(value));
+  }
+}
+
+noUiSlider.create(slider, {
+
+range: {
+	'min': 0,
+	'max': valuesForSlider.length-1
+},
+step: 1,
+start: [0, 10],
+connect: true,
+behaviour: 'tap-drag',
+tooltips: true,
+format: format,
+});
+
+range.noUiSlider.on('update', function( values, handle ) {
+  min.value = Math.trunc(values[0])
+  max.value = Math.trunc(values[1])
+})
+</script>
 
 @endsection
