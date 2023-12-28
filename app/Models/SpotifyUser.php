@@ -41,4 +41,9 @@ class SpotifyUser extends Model
         'token_updated_at' => 'datetime',
         'token_expire' => 'datetime',
     ];
+
+    public function tokenExpired()
+    {
+        return now()->gt($this->token_expire);
+    }
 }
