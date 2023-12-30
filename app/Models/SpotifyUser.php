@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
 class SpotifyUser extends Model
 {
@@ -42,8 +43,12 @@ class SpotifyUser extends Model
         'token_expire' => 'datetime',
     ];
 
-    public function tokenExpired()
+    /**
+     * トークンの有効期限が切れているかどうかを判定する。
+     * @return bool
+     */
+    public function isTokenExpired()
     {
-        return now()->gt($this->token_expire);
+        return Carbon::now()->gt($this->token_expire);
     }
 }

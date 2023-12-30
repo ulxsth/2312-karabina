@@ -33,12 +33,8 @@ class UserController extends Controller
         // 指定されたSpotifyIDのユーザー情報をデータベースから取得
         $user = SpotifyUser::where('spotify_id', $spotifyId)->first();
 
-        // もしも、ユーザーが見つからない場合はエラーを返す
-        if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
-        // 見つかった場合は、ユーザー情報を返す
-        return response()->json($user, 200);
+        // ユーザーが存在する場合はtrueを、存在しない場合はfalseを返す
+        return $user !== null;
     }
 
     /**

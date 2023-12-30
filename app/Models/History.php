@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class History extends Model
 {
     use HasFactory;
-    // History.php
 
-    public function scopeWithinPeriod($query, $startDate, $endDate)
+    // 期間の絞り込みを行うスコープを定義
+    public function scopeInPeriod($query, $startDate, $endDate)
     {
-        return $query->whereBetween('playback_date', [$startDate, $endDate]);
+        return $query->whereBetween('played_at', [$startDate, $endDate]);
     }
 
 }
