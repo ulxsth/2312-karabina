@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('spotify_users', function (Blueprint $table) {
             $table->string('spotify_id')->primary();
-            $table->string('access_token');
-            $table->string('refresh_token');
+            $table->text('access_token'); // 変更: text型に変更
+            $table->text('refresh_token'); // 変更: text型に変更
             $table->timestamp('token_updated_at');
             $table->timestamp('token_expire');
             $table->timestamps();
