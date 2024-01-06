@@ -26,6 +26,14 @@ class UserController extends Controller
     }
 
     /**
+     * すべてのユーザーを取得する
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function all() {
+        return response()->json(SpotifyUser::all());
+    }
+
+    /**
      * SpotifyIDによるユーザー情報の読込機能（R）
      */
     public function read($spotifyId)
