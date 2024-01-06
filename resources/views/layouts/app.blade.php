@@ -22,6 +22,10 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Rubik+Lines&display=swap" rel="stylesheet">
+<<<<<<< HEAD
+=======
+		<title>Recentri</title>
+>>>>>>> 685e4fe4046a637f380a0b07d2b9df51bfbea7f2
 
 		<!-- noUiSlider -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.css">
@@ -42,11 +46,13 @@
 		<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 		<!-- stats.js lib -->
 		<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+		
+=======
 
-		<div class="space"></div>
+		<div class = "space"></div>
 		<img src="\chara2.png">
 		<script src="{{ asset('js/app.js') }}"></script>
-
+>>>>>>> 685e4fe4046a637f380a0b07d2b9df51bfbea7f2
         @yield('content')
     </body>
 </html>
