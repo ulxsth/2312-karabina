@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('user_spotify_id');
             $table->string('track_spotify_id');
+            $table->timestamp('played_at');
         });
     }
 
