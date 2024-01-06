@@ -1,7 +1,7 @@
 @extends('layouts.app')
-@vite(['public/scss/app.scss','resources/js/app.js'])
 
 @section('head')
+@vite(['resources/scss/app.scss', 'resources/css/create.css'])
 <link rel="stylesheet" href="{{ asset('css/create.css') }}">
 <link rel="stylesheet" href="{{ asset('scss/app.scss') }}">
 @endsection

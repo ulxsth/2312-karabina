@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
-    <link rel="stylesheet" href="{{ asset('css/signin.css') }}">
+    @vite(['resources/css/signin.css'])
 @endsection
 
 @section('content')

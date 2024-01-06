@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
-    <link rel="stylesheet" href="{{ asset('css/playlist_result.css') }}">
+    @vite(['resources/css/playlist_result.css', 'resources/js/playlist_result.js'])
 @endsection
 
 @section('content')
