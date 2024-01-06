@@ -7,7 +7,6 @@ function copyPlaylistUrl() {
     const data = [new ClipboardItem({ [type]: blob })];
 
     navigator.clipboard.write(data).then(() => {
-        console.log("コピーしました");
         copiedMessage.style.visibility = "visible";
         setTimeout(() => {
             copiedMessage.style.visibility = "hidden";
