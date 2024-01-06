@@ -4,6 +4,8 @@
 @section('head')
 <link rel="stylesheet" href="{{ asset('css/create.css') }}">
 <link rel="stylesheet" href="{{ asset('scss/app.scss') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
 
 @section('content')
@@ -17,7 +19,7 @@
         <div class="input-group">
 					<input id="name" type="text" required="" autocomplete="off">
 					<label for="name">#new playlist</label>
-			</div>
+				</div>
 
 			<div id="slider"></div>
 
@@ -30,8 +32,25 @@
 				Create New Playlist
 		</a><br>
 
+		<span class="material-symbols-outlined" id="lock" onclick="lock(lockButton)">
+			lock
+		</span>
+
   </form>
 </div>
+
+<script>
+	const lockButton = document.getElementById("lock"); 
+	function lock(){
+		if(lockButton === "lock"){
+			lockButton.innerText = "lock_open";
+			console.log("public");
+		}else{
+			lockButton.innerText = "lock";
+			console.log("private");
+		}
+	}
+</script>
 
 <script>
 var slider = document.getElementById('slider');
