@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@vite(['public/scss/app.scss','resources/js/app.js'])
 
 @section('head')
-<link rel="stylesheet" href="{{ asset('css/create.css') }}">
-<link rel="stylesheet" href="{{ asset('scss/app.scss') }}">
+@vite(['resources/scss/app.scss', 'resources/css/create.css'])
+<!-- <link rel="stylesheet" href="{{ asset('css/create.css') }}">
+<link rel="stylesheet" href="{{ asset('scss/app.scss') }}"> -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection

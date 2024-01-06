@@ -3,8 +3,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="theme-color" content="#000000">
-        <!-- <link rel="stylesheet" href="/app.css" /> -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 				
         <!--googlefont londrinascketch-->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,8 +21,8 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Rubik+Lines&display=swap" rel="stylesheet">
-
 		<title>Recentri</title>
+
 
 		<!-- noUiSlider -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.css">
@@ -46,8 +45,8 @@
 		<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
 
 		<div class = "space"></div>
-		<img src="\chara2.png">
-		<script src="{{ asset('js/app.js') }}"></script>
+		<img src="images/chara2.png">
+
         @yield('content')
     </body>
 </html>
