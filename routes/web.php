@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/auth/spotify', [AuthController::class, 'redirectToSpotify']);
+Route::get('/auth/spotify/callback', [AuthController::class, 'handleSpotifyCallback']);
+Route::get('/home', function () {
     return view('welcome');
 });
