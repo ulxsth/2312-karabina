@@ -31,6 +31,7 @@ class AuthController extends Controller {
             'user-read-email',
             'user-library-read',
             'playlist-modify-private',
+            'user-read-recently-played'
         ];
 
         // ユーザに認証を要求するためのリダイレクトURLを生成する
@@ -61,24 +62,24 @@ class AuthController extends Controller {
                 'client_id' => env('SPOTIFY_CLIENT_ID'),
                 'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
             ]);
-            
+
             // エラー処理
         if ($response->successful()) {
             $tokenData = $response->json();
             $accessToken = $tokenData['access_token'];
             $refreshToken = $tokenData['refresh_token'];
-    
+
 
         // ユーザー情報を取得
         $userResponse = Http::withHeaders(['Authorization' => 'Bearer ' . $accessToken])->get('https://api.spotify.com/v1/me');
-    
+
         // ユーザー情報が正常に取得できた場合
         if ($userResponse->successful()) {
         $userData = $userResponse->json();
         \Log::info('Spotify User Data:', $userData); // デバッグログを追加
         $spotifyId = $userData['id'];
 
-        
+
         // データベースに新規登録または更新
         $spotifyUser = \App\Models\SpotifyUser::updateOrCreate(
             ['spotify_id' => $spotifyId],
