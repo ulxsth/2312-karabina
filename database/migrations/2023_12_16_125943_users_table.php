@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('access_token'); // 変更: text型に変更
             $table->text('refresh_token'); // 変更: text型に変更
             $table->timestamp('token_updated_at');
-            $table->timestamp('token_expire');
+            $table->integer('token_expire');
             $table->timestamps();
         });
     }
