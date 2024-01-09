@@ -20,6 +20,7 @@ class SpotifyUserFactory extends Factory
             'spotify_id' => $this->faker->uuid,
             'access_token' => $this->faker->sha256,
             'refresh_token' => $this->faker->sha256,
+            'token_updated_at' => $this->faker->dateTime,
             'token_expire' => $this->faker->numberBetween(0, 3600),
         ];
     }
