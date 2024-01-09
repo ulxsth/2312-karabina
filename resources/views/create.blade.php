@@ -2,8 +2,6 @@
 
 @section('head')
 @vite(['resources/scss/app.scss', 'resources/css/create.css'])
-<link rel="stylesheet" href="{{ asset('css/create.css') }}">
-<link rel="stylesheet" href="{{ asset('scss/app.scss') }}">
 @endsection
 
 @section('content')
@@ -15,21 +13,19 @@
   <form method="POST">
         @csrf
         <div class="input-group">
-					<input id="name" type="text" required="" autocomplete="off">
-					<label for="name">#new playlist</label>
+			<input id="name" type="text" required="" autocomplete="off">
+			<label for="name">#new playlist</label>
 			</div>
-
 			<div id="slider"></div>
-
-		<br>
-		<a href="#">
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-				Create New Playlist
-		</a><br>
-
+			<br>
+			<a href="#">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+					Create New Playlist
+			</a><br>
+		</div>
   </form>
 </div>
 
