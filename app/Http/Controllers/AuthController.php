@@ -102,7 +102,7 @@ class AuthController extends Controller
                     $userController = app(UserController::class);
 
                     // インスタンスを作成
-                    $request = new \Illuminate\Http\Request([
+                    $request = new Request([
                         'spotify_id' => $spotifyUser->spotify_id,
                         'access_token' => $spotifyUser->access_token,
                         'refresh_token' => $spotifyUser->refresh_token,
