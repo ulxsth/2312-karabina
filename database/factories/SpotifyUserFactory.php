@@ -17,7 +17,10 @@ class SpotifyUserFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'spotify_id' => $this->faker->uuid,
+            'access_token' => $this->faker->sha256,
+            'refresh_token' => $this->faker->sha256,
+            'expires_in' => $this->faker->numberBetween(0, 3600),
         ];
     }
 }
