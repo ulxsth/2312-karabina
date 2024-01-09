@@ -178,7 +178,7 @@ class AuthController extends Controller
                 'headers' => $headers,
             ];
 
-            $$response = $this->httpClient->post('https://accounts.spotify.com/api/token', $options);
+            $response = $this->httpClient->post('https://accounts.spotify.com/api/token', $options);
 
             if ($response->getStatusCode() == 200) {
                 $responseData = json_decode($response->getBody(), true);
