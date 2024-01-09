@@ -22,7 +22,6 @@ class SpotifyUser extends Model
         'spotify_id',
         'access_token',
         'refresh_token',
-        'token_updated_at',
         'token_expire',
     ];
 
