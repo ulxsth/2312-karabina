@@ -23,6 +23,7 @@
 
 			<div id="slider"></div>
 
+		<div class="create_button">
 		<br>
 		<a href="#">
 			<div></div>
@@ -30,23 +31,25 @@
 			<div></div>
 			<div></div>
 				Create New Playlist
-		</a><br>
+		</a>
 
 		<span class="material-symbols-outlined" id="lock" onclick="lock(lockButton)">
-			lock
+			lock_open
 		</span>
-
+		</div>
   </form>
 </div>
 
 <script>
 	const lockButton = document.getElementById("lock"); 
 	function lock(){
-		if(lockButton === "lock"){
+		if(lockButton.innerText === "lock"){
 			lockButton.innerText = "lock_open";
+			lockButton.style.color = "white";
 			console.log("public");
-		}else{
+		}else if(lockButton.innerText === "lock_open"){
 			lockButton.innerText = "lock";
+			lockButton.style.color = "black";
 			console.log("private");
 		}
 	}

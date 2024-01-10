@@ -71,6 +71,8 @@ select:hover{
 
 a{
   position:relative;
+	margin: auto 0;
+	margin-left: 32px;
   padding: 15px 30px;
   display: inline-block;
   color: white;
@@ -152,10 +154,20 @@ a:hover div:nth-child(4){
   transition-delay: .75s;
 }
 
+.create_button{
+	margin: 0 auto;
+	display: table;
+}
+
 #lock{
-	position: relative;
+	display: table-cell;
+	vertical-align: bottom;
+	padding: 20px;
+	font-size: 200%;
+	color: white;
 }
 
 #lock:hover{
 	transform: scale(1.2,1.2);
+	text-shadow: 0 0 12px white, 0 0 40px white, 0 0 80px white;
 }
