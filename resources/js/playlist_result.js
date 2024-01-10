@@ -13,3 +13,7 @@ function copyPlaylistUrl() {
         }, 5000);
     });
 }
+
+document.getElementById('copy-playlist-url').addEventListener('click', function() {
+    copyPlaylistUrl();
+});

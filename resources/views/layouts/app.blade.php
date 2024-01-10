@@ -45,8 +45,7 @@
 		<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
 
 		<div class = "space"></div>
-		<img src="images/chara2.png">
-
+		<img src="\images\chara2.png">
         @yield('content')
     </body>
 </html>
