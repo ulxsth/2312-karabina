@@ -2,13 +2,10 @@
 
 @section('head')
 @vite(['resources/scss/app.scss', 'resources/css/create.css'])
-<<<<<<< HEAD
 <!-- <link rel="stylesheet" href="{{ asset('css/create.css') }}">
 <link rel="stylesheet" href="{{ asset('scss/app.scss') }}"> -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-=======
->>>>>>> db7bca7d34ab88ba731ba866b7e5d100a2b57532
 @endsection
 
 @section('content')
@@ -20,7 +17,6 @@
   <form method="POST">
         @csrf
         <div class="input-group">
-<<<<<<< HEAD
 					<input id="name" type="text" required="" autocomplete="off">
 					<label for="name">#new playlist</label>
 				</div>
