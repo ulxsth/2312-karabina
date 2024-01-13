@@ -100,7 +100,7 @@ class AuthController extends Controller
                     }
 
                     // UserControllerのインスタンスを取得
-                    $userController = app(UserController::class);
+                    $userController = app(SpotifyUserController::class);
 
                     // インスタンスを作成
                     $request = new \Illuminate\Http\Request([

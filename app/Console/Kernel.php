@@ -2,9 +2,8 @@
 
 namespace App\Console;
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\SpotifyUserController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,12 +16,14 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->call(function () {
-            $userController = new UserController();
-            $historyController = new HistoryController();
+            $userController = app(SpotifyUserController::class);
+            $historyController = app(HistoryController::class);
 
-            $users = $userController->all();
+            // TODO: chunkで分割して処理する
+            $response = $userController->all();
+            $users = $response->getData();
             foreach ($users as $user) {
-                $historyController->fetch($user);
+                $historyController->fetch($user->spotify_id, $user->access_token, $user->refresh_token);
             }
         })->everyFiveMinutes();
     }
@@ -32,7 +33,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SpotifyUser;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class SpotifyUserController extends Controller
 {
     /**
      * ユーザー作成機能（C）
@@ -29,7 +29,8 @@ class UserController extends Controller
      * すべてのユーザーを取得する
      * @return \Illuminate\Http\JsonResponse
      */
-    public function all() {
+    public function all()
+    {
         return response()->json(SpotifyUser::all());
     }
 
