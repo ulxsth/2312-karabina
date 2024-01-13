@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
             // TODO: chunkで分割して処理する
             $response = $userController->all();
             $users = $response->getData();
+
             foreach ($users as $user) {
                 $historyController->fetch($user->spotify_id, $user->access_token, $user->refresh_token);
             }

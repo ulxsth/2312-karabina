@@ -9,5 +9,9 @@ class History extends Model
 {
     use HasFactory;
     protected $fillable = ['user_spotify_id', 'track_spotify_id', 'played_at'];
-    protected $casts = ['played_at' => 'datetime'];
+    protected $casts = [
+        'user_spotify_id' => 'string',
+        'track_spotify_id' => 'string',
+        'played_at' => 'datetime'
+    ];
 }
