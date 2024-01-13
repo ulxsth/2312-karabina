@@ -11,7 +11,7 @@ use GuzzleHttp\Client;
 class AuthController extends Controller
 {
     private $authorize_url = 'https://accounts.spotify.com/authorize';
-    
+
     private $client_id;
     private $client_secret;
     private $redirect_uri;
@@ -25,7 +25,7 @@ class AuthController extends Controller
 
     /**
      * ユーザをSpotify認証ページへリダイレクトさせる。
-     * @return void
+     * @return RedirectResponse
      */
     public function redirectToSpotify()
     {
