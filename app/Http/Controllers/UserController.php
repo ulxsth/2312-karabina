@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\SpotifyUser;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
-     * ユーザー作成機能（C）
+     * ユーザーを登録する。
+     * @param Request $request
+     * @return JsonResponse
      */
     public function create(Request $request)
     {
@@ -26,7 +29,9 @@ class UserController extends Controller
     }
 
     /**
-     * SpotifyIDによるユーザー情報の読込機能（R）
+     * SpotifyIDを指定してユーザー情報を取得する。
+     * @param $spotifyId
+     * @return JsonResponse
      */
     public function read($spotifyId)
     {
@@ -42,9 +47,12 @@ class UserController extends Controller
     }
 
     /**
-     * ユーザー情報更新機能（U）
+     * ユーザー情報を更新する。
+     * @param Request $request
+     * @param string $spotifyId
+     * @return JsonResponse
      */
-    public function update(Request $request, $spotifyId)
+    public function update(Request $request, string $spotifyId)
     {
         // 指定されたSpotifyIDのユーザー情報をデータベースから取得
         $user = SpotifyUser::where('spotify_id', $spotifyId)->first();
