@@ -20,7 +20,7 @@ class HistoryController extends Controller
      * @return boolean 保存処理の可否
      */
     public function fetch($user) {
-        $this->authController->refreshToken($user);
+        $this->authController->requestSpotifyTokenByRefreshToken($user->reflash_token);
 
         $timestamp = strtotime('-5 minutes');
         $response = Http::withToken($user->access_token)->get('https://api.spotify.com/v1/me/player/recently-played', [
