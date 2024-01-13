@@ -64,18 +64,24 @@ class AuthController extends Controller
                 'client_id' => env('SPOTIFY_CLIENT_ID'),
                 'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
             ]);
+
+            // Spotifyトークンの取得に失敗した場合
             if (!$response->successful()) {
-                // Spotifyトークンの取得に失敗した場合
                 return response()->json(['error' => 'Failed to retrieve Spotify token'], 500);
             }
+
             $tokenData = $response->json();
             $accessToken = $tokenData['access_token'];
             $refreshToken = $tokenData['refresh_token'];
 
             // ユーザー情報を取得
-            $userResponse = Http::withHeaders(['Authorization' => 'Bearer ' . $accessToken])->get('https://api.spotify.com/v1/me');
+            $userResponse = Http::withToken($accessToken)->get('https://api.spotify.com/v1/me');
+
+            // ユーザー情報の取得に失敗した場合
             if (!$userResponse->successful()) {
-                return response()->json(['error' => 'Failed to retrieve Spotify user information'], 500);
+                $errorMessage = $userResponse->body();
+                $statusCode = $userResponse->status();
+                return response()->json(['error' => 'Failed to retrieve Spotify user information', 'message' => $errorMessage, 'status' => $statusCode], 500);
             }
 
             $userData = $userResponse->json();
