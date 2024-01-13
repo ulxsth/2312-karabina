@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\SpotifyUser;
 use Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
@@ -90,7 +91,7 @@ class AuthController extends Controller
             $spotifyId = $userData['id'];
 
             // データベースに新規登録または更新
-            $spotifyUser = \App\Models\SpotifyUser::updateOrCreate(
+            $spotifyUser = SpotifyUser::updateOrCreate(
                 ['spotify_id' => $spotifyId],
                 [
                     'access_token' => $accessToken,
@@ -115,9 +116,7 @@ class AuthController extends Controller
                 'refresh_token' => $spotifyUser->refresh_token,
             ]);
 
-            // UserController::create メソッドを呼び出す
-            return $userController->create($request);
-
+            $userController->create($request);
 
         } catch (RequestException $e) {
             \Log::error('Spotify Token Request Error: ' . $e->getMessage());
