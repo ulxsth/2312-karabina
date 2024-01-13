@@ -108,9 +108,6 @@ class AuthController extends Controller
                         'access_token' => $spotifyUser->access_token,
                         'refresh_token' => $spotifyUser->refresh_token,
                     ]);
-
-                    // UserController::create メソッドを呼び出す
-                    return $userController->create($request);
                 } else {
                     // ユーザー情報の取得に失敗した場合
                     return response()->json(['error' => 'Failed to retrieve Spotify user information'], 500);
