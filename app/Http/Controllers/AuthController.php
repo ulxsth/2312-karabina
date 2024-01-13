@@ -10,10 +10,11 @@ use GuzzleHttp\Client;
 
 class AuthController extends Controller
 {
+    private $authorize_url = 'https://accounts.spotify.com/authorize';
+    
     private $client_id;
     private $client_secret;
     private $redirect_uri;
-    private $authorize_url = 'https://accounts.spotify.com/authorize';
 
     public function __construct()
     {
