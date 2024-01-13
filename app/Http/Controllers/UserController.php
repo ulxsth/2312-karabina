@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
-     * ユーザー作成機能（C）
+     * ユーザーをデータベースに登録する。
      */
-    public function create(Request $request)
+    public function store(Request $request)
     {
         //新規ユーザー情報をデータベースに格納
         $user = SpotifyUser::create([
