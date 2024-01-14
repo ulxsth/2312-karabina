@@ -1,5 +1,6 @@
 #slider {
 	//レンジスライダーの外枠の見た目
+	top: 30px;
 	max-width: 500px;
 	margin-right: auto;
 	margin-left:auto;
@@ -34,12 +35,15 @@
 			border:1px solid #b8adad;
 			border-radius: 1000px;
 			background: #fff;
+			
 			top: -10px;
 			&:before,
 			&:after { content:none; }
 		}
 		&-tooltip {
 			background-color: transparent;
+			color: white;
+			font-weight: bold;
 		}
 	}
 }

@@ -4,6 +4,8 @@
 @vite(['resources/scss/app.scss', 'resources/css/create.css'])
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
 @endsection
 
 @section('content')
@@ -11,13 +13,10 @@
     <h1>Recentri <span>for Spotify</span></h1>
 </div>
 
+
 <div class="create-playlist">
   <form method="POST">
         @csrf
-        <div class="input-group">
-					<input id="name" type="text" required="" autocomplete="off">
-					<label for="name">#new playlist</label>
-				</div>
 
 			<div id="slider"></div>
 

@@ -21,6 +21,11 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Rubik+Lines&display=swap" rel="stylesheet">
+		{{-- googlefont  dotgothic16--}}
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+		
 		<title>Recentri</title>
 
 
@@ -33,6 +38,7 @@
 
     </head>
     <body>
+		<div id="crt-lines" background-image=></div>
 		<!-- particles.js container -->
 		<div id="particles-js"></div>
 		<!-- stats - count particles -->
