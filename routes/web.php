@@ -17,6 +17,7 @@ use App\Http\Controllers\AuthController;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/auth/spotify', [AuthController::class, 'redirectToSpotify']);
 Route::get('/auth/spotify/callback', [AuthController::class, 'handleSpotifyCallback']);
 Route::get('/home', function () {

@@ -12,7 +12,6 @@ use GuzzleHttp\Client;
 class AuthController extends Controller
 {
     private $authorize_url = 'https://accounts.spotify.com/authorize';
-
     private $client_id;
     private $client_secret;
     private $redirect_uri;
@@ -36,6 +35,7 @@ class AuthController extends Controller
             'user-read-email',
             'user-library-read',
             'playlist-modify-private',
+            'user-read-recently-played'
         ];
 
         // ユーザに認証を要求するためのリダイレクトURLを生成する
