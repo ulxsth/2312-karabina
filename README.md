@@ -28,6 +28,7 @@ Spotify の「ちょっと前に聞いてた曲」を思い出すための、プ
 
 - mogumo
     - [GitHub](https://github.com/kurumayusamugariko)
+    - [Twitter](https://twitter.com/mogumo_zzz)
 
 - murata
     - [GitHub](https://github.com/Shun-art)
