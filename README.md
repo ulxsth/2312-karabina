@@ -4,7 +4,7 @@
 # Recentri
 ![logo](https://github.com/ulxsth/Recentri/assets/114195789/04cf24d4-9d3a-45b5-9599-9f0254e89071)
 
-### 2023 - カラビナ新卒向けインターン <br> Dチーム「ワンルームDJ」<br>　制作物
+### 2023 - カラビナ新卒向けインターン <br> Bチーム「ワンルームDJ」<br>　制作物
 
 ![Static Badge](https://img.shields.io/badge/Laravel-v10.10-orange)
 ![Static Badge](https://img.shields.io/badge/Spotify_API-v1-green)
