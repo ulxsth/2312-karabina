@@ -36,6 +36,7 @@ class AuthController extends Controller
             'user-library-read',
             'playlist-modify-public',
             'playlist-modify-private',
+            'user-read-recently-played',
         ];
 
         // ユーザに認証を要求するためのリダイレクトURLを生成する

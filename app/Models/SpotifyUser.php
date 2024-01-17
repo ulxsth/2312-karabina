@@ -3,16 +3,30 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Carbon\Carbon;
 
-class SpotifyUser extends Model
+class SpotifyUser extends Model implements Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $primaryKey = 'spotify_id';
+
+    /**
+     * モデルのIDを自動増分するか
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * 自動増分IDのデータ型
+     * @var string
+     */
+    protected $keyType = 'string';
 
     /**
      * Eloquentモデルに保存できる属性を指定
@@ -49,6 +63,46 @@ class SpotifyUser extends Model
      */
     public function isTokenExpired()
     {
+        Log::info('Checking token expiration for user: ' . $this->spotify_id);
         return Carbon::now()->gt($this->token_expire);
+    }
+
+    public function playlists()
+    {
+        return $this->hasMany(Playlist::class, 'user_id', 'spotify_id');
+    }
+
+    /*
+     * Laravelの認証にログインする為に必要なデータ
+     */
+
+    // Authenticatable インターフェースのメソッドを実装
+    public function getAuthIdentifierName()
+    {
+        return 'spotify_id';
+    }
+    public function getAuthPassword()
+    {
+        // パスワードが存在しない場合、空の文字列を返す
+        return '';
+    }
+
+    public function getAuthIdentifier()
+    {
+        return $this->attributes['spotify_id'];
+    }
+    public function getRememberToken()
+    {
+        return $this->attributes['remember_token'];
+    }
+
+    public function setRememberToken($value)
+    {
+        $this->attributes('remember_token', $value);
+    }
+
+    public function getRememberTokenName()
+    {
+        return 'remember_token';
     }
 }
