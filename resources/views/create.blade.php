@@ -18,7 +18,10 @@
   <form method="POST">
         @csrf
 
-			<div id="slider"></div>
+			{{-- <div id="slider"></div> --}}
+		<input type="month" name="start_date">
+		 ~ 
+		<input type="month" value="<?php echo date('Y-m'); ?>" name="end_date">
 
 		<div class="create_button">
 		<br>
@@ -52,7 +55,7 @@
 	}
 </script>
 
-<script>
+{{-- <script>
 var slider = document.getElementById('slider');
 const valuesForSlider = [0,1,2,3,4,5,6,7,8,9,10];
 const Min = document.getElementById('Min');
@@ -85,6 +88,6 @@ range.noUiSlider.on('update', function( values, handle ) {
   min.value = Math.trunc(values[0])
   max.value = Math.trunc(values[1])
 })
-</script>
+</script> --}}
 
 @endsection
