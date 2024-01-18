@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Models;
-
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,10 +47,10 @@ class SpotifyUser extends Model implements Authenticatable
     protected $hidden = [
     ];
 
-    /**
-     * 属性がdatetimeタイプなのが前提
-     */
     protected $casts = [
+        'spotify_id' => 'string',
+        'access_token' => 'string',
+        'refresh_token' => 'string',
         'token_updated_at' => 'datetime',
         'token_expire' => 'datetime',
     ];
