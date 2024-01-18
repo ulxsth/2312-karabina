@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('spotify_users', function (Blueprint $table) {
-            $table->string('spotify_id')->primary();
-            $table->text('access_token'); //text型に変更
-            $table->text('refresh_token'); //text型に変更
-            $table->timestamp('token_updated_at');
-            $table->timestamp('token_expire');
+        Schema::create('tracks', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('artist');
+            // 他に必要なカラムがあれば追加
+
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('spotify_users');
+        Schema::dropIfExists('tracks');
     }
 };

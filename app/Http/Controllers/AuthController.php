@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SpotifyUserController;
 use App\Models\SpotifyUser;
 use Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
@@ -11,6 +12,7 @@ use GuzzleHttp\Client;
 
 class AuthController extends Controller
 {
+
     private $authorize_url = 'https://accounts.spotify.com/authorize';
     private $client_id;
     private $client_secret;
@@ -34,7 +36,9 @@ class AuthController extends Controller
             'user-read-private',
             'user-read-email',
             'user-library-read',
+            'playlist-modify-public',
             'playlist-modify-private',
+            'user-read-recently-played',
             'user-read-recently-played'
         ];
 
@@ -87,66 +91,66 @@ class AuthController extends Controller
             }
 
             $userData = $userResponse->json();
-            \Log::info('Spotify User Data:', $userData);
             $spotifyId = $userData['id'];
+            \Log::info('Spotify User Data:', $userData);
 
-            // データベースに新規登録または更新
-            $spotifyUser = SpotifyUser::updateOrCreate(
-                ['spotify_id' => $spotifyId],
-                [
+            // 存在しているかどうかの確認
+            $user = SpotifyUser::where('spotify_id', $spotifyId)->first();
+            $userController = app(SpotifyUserController::class);
+
+            $spotifyIdToDelete = '0';
+            SpotifyUser::where('spotify_id', $spotifyIdToDelete)->delete();
+
+            // 既存ユーザーが存在しない場合は新規作成
+            if (!$user) {
+                $spotifyUser = SpotifyUser::create([
+                    'spotify_id' => $spotifyId,
                     'access_token' => $accessToken,
                     'refresh_token' => $refreshToken,
                     'token_updated_at' => now(),
                     'token_expire' => now()->addHour(),
-                ]
-            );
+                ]);
 
-            // 保存する前に ID がセットされていない場合のみ保存
-            if (!$spotifyUser->exists) {
-                $spotifyUser->save();
+                // インスタンスを作成
+                $request = new Request([
+                    'spotify_id' => $spotifyUser->spotify_id,
+                    'access_token' => $spotifyUser->access_token,
+                    'refresh_token' => $spotifyUser->refresh_token,
+                ]);
+
+                // 既存のユーザーが存在しない場合のみUserController::createメソッドを呼び出す
+                if (!$userController->read($spotifyUser->spotify_id)) {
+                    $userController->create($request);
+                }
+
+                return redirect('/home');
             }
 
-            // UserControllerのインスタンスを取得
-            $userController = app(UserController::class);
+            // 既存ユーザーが存在する場合は更新する
+            $user->update([
+                'access_token' => $accessToken,
+                'refresh_token' => $refreshToken,
+                'token_updated_at' => now(),
+                'token_expire' => now()->addHour(),
+            ]);
 
             // インスタンスを作成
             $request = new Request([
-                'spotify_id' => $spotifyUser->spotify_id,
-                'access_token' => $spotifyUser->access_token,
-                'refresh_token' => $spotifyUser->refresh_token,
+                'spotify_id' => $user->spotify_id,
+                'access_token' => $user->access_token,
+                'refresh_token' => $user->refresh_token,
             ]);
 
-            $userController->create($request);
+            $userController->update($request, $user->spotify_id);
+
+            return redirect('/home');
 
         } catch (RequestException $e) {
             \Log::error('Spotify Token Request Error: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to retrieve Spotify token'], 500);
         }
-
-        $client = new Client();
-
-        $form_params = [
-            'grant_type' => 'client_credentials',
-            'client_id' => env('SPOTIFY_CLIENT_ID'),
-            'client_secret' => env('SPOTIFY_CLIENT_SECRET')
-        ];
-
-        $headers = [
-            'Content-Type' => 'application/x-www-form-urlencoded'
-        ];
-
-        $options = [
-            'form_params' => $form_params,
-            'headers' => $headers
-        ];
-
-        $response = $client->post('https://accounts.spotify.com/api/token', $options);
-
-        // 取得したトークンを使用し、Spotify APIへのリクエストを行う
-        $token = json_decode($response->getBody(), true)['access_token'];
-
-        return redirect()->to('/home');
     }
+
 
     /**
      * Spotifyからのコードを使用してトークンを取得する。
@@ -192,6 +196,13 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Spotifyからのリフレッシュトークンを使用してトークンを取得する。
+     *
+     * @param string $refreshToken
+     * @return string|null
+     * @throws RequestException
+     */
     public function requestSpotifyTokenByRefreshToken($refreshToken)
     {
 
@@ -224,6 +235,23 @@ class AuthController extends Controller
         } catch (RequestException $e) {
             // エラーが発生した場合は null を返す
             return null;
+        }
+    }
+
+    /**
+     * ユーザーのトークンを更新する。
+     *
+     * @param SpotifyUser $user
+     * @return void
+     */
+    public function refreshToken(SpotifyUser $user)
+    {
+        try {
+            // トークンの更新処理を実装
+            $newToken = $this->requestSpotifyTokenByRefreshToken($user->refresh_token);
+            $user->update(['access_token' => $newToken]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to refresh token: ' . $e->getMessage());
         }
     }
 }
