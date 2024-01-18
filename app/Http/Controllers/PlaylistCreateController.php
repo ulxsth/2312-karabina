@@ -4,63 +4,72 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use App\Models\Playlist;
-use App\Models\Track;
 use App\Models\History;
 use App\Models\SpotifyUser;
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 
 class PlaylistCreateController extends Controller
 {
-    // プレイリストを作成するメソッド
+
+    /**
+     * プレイリストを作成するメソッド
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\View
+     */
     public function createPlaylist(Request $request)
     {
         DB::enableQueryLog();
-
         // 1. ユーザーのトークンを確認して、期限切れなら更新
-        $user = SpotifyUser::find(auth()->id());
-        \Log::info('User ID for Playlist:', ['user_id' => auth()->id()]);
+        $user = SpotifyUser::first();
+
+        Auth::login($user);
 
         if ($user && $user->isTokenExpired()) {
             // トークンを更新する処理
             app(AuthController::class)->refreshToken($user);
         }
 
-        // 2. Get Recently Played Tracksを使用して最近再生したトラックを取得する
-        $recentlyPlayedTracks = $this->getRecentlyPlayedTracks($user);
+        // フォームからデータを取得
+        $startDate = Carbon::parse($request->input('start_date'))->startOfDay();
+        $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
 
-        // エラーハンドリング - トラックが取得できない場合
-        if ($recentlyPlayedTracks === null || count($recentlyPlayedTracks) === 0) {
-            return response()->json(['error' => 'No recently played tracks found.'], 500);
+        // ユーザが最近再生した曲を取得
+        $recentlyPlayedTracks = $this->getMyRecentTracksWithTimestamps($user, $startDate, $endDate);
+        //ok \Log::info('Recently Played Tracks: ' . json_encode($recentlyPlayedTracks));
+
+        // 繰り返し回数
+        $repeatCount = 50;
+
+        for ($i = 0; $i < $repeatCount; $i++) {
+            // 最近再生したトラックからランダムに1つ選ぶ
+            $randomTrack = $recentlyPlayedTracks[rand(0, count($recentlyPlayedTracks) - 1)];
+            // \Log::info('Random Track Data: ' . json_encode($randomTrack));
+
+            // 各トラックの情報にアクセス
+            $randomTrackData = $randomTrack['track'];
+
+            // データベースに保存
+            History::create([
+                'track_id' => $randomTrackData['id'],
+                'spotify_uris' => $randomTrackData['uri'],
+                'played_at' => Carbon::parse($randomTrack['played_at']),
+                'popularity' => $randomTrackData['popularity'],
+            ]);
         }
-
-        // 3. 最近再生したトラックからランダムに1つ選ぶ
-        $randomTrack = $recentlyPlayedTracks[rand(0, count($recentlyPlayedTracks) - 1)];
-
-        // 4. 新しい History レコードを作成
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
-
-        History::create([
-            'track_id' => $randomTrack['track']['id'],
-            'played_at' => Carbon::parse($startDate),
-            'play_count' => 1,  // 適切な再生回数をセット
-            'enddate' => Carbon::parse($endDate),  // 例えば、7日後の日時をセット
-        ]);
 
         // 5. History モデルから指定期間内のデータを取得
         $historyData = History::inPeriod($startDate, $endDate)
-            ->orderBy('play_count', 'desc')
+            ->orderBy('popularity', 'desc')
             ->orderBy('played_at')
             ->get();
-
-        \Log::info('SQL Query: ' . json_encode(DB::getQueryLog()));
-
+        // ok \Log::info('History Data: ' . json_encode($historyData));
         if ($historyData->isEmpty()) {
             // エラーハンドリング: 履歴データが取得できなかった場合
             \Log::error('Failed to retrieve history data.');
@@ -84,19 +93,18 @@ class PlaylistCreateController extends Controller
             return response()->json(['error' => 'Failed to create Spotify playlist.'], 500);
         }
 
-        // 8. 取得した履歴データを元に曲をプレイリストに追加する
-        foreach ($historyData as $history) {
-            $track = Track::firstOrCreate(['name' => $history->track_name, 'artist' => $history->artist_name]);
-            \Log::info('Track Data: ', ['name' => $track->name, 'artist' => $track->artist]);
-            $playlist->tracks()->attach($track->id, ['playlist_id' => $playlist->id]);
+        $addcount = 10;
+        $trackUris = [];
+        for ($i = 0; $i < $addcount; $i++) {
+            $trackUri = History::inRandomOrder()->value('spotify_uris');
+            array_push($trackUris, $trackUri);
         }
 
-        // 9. 選択したランダムな楽曲をプレイリストに追加する
-        $playlist->tracks()->create([
-            'track_id' => $randomTrack['track']['id'],
-            'name' => $randomTrack['track']['name'],
-            'artist' => implode(', ', array_column($randomTrack['track']['artists'], 'name'))
-        ]);
+        $this->addPlaylistItems($spotifyPlaylistId, $user, $trackUris);
+
+        // for ($i = 0; $i < $addcount; $i++) {
+        // $this->addPlaylistItems($spotifyPlaylistId, $user);
+        // }
 
         // 10. ユーザが決めたプレイリスト名を受け取る
         $playlistName = $request->input('playlist_name');
@@ -111,38 +119,35 @@ class PlaylistCreateController extends Controller
         ]);
     }
 
-    /*
-     * ちょっと前のトラックを取得して返すメソッド
-     */
-    private function getRecentlyPlayedTracks($user)
+    private function getMyRecentTracksWithTimestamps($user, $startDate, $endDate)
     {
-        // Spotify APIエンドポイント
-        $endpoint = 'https://api.spotify.com/v1/me/player/recently-played';
+        try {
+            // Spotify APIエンドポイント
+            $endpoint = 'https://api.spotify.com/v1/me/player/recently-played';
 
-        // Spotify APIリクエストに必要なヘッダー
-        $headers = [
-            'Authorization' => 'Bearer ' . $user->access_token,
-            'Content-Type' => 'application/json',
-        ];
+            // Spotify APIリクエストに必要なヘッダー
+            $headers = [
+                'Authorization' => 'Bearer ' . $user->access_token,
+            ];
 
-        // Spotify APIに最近再生したトラックを取得するリクエストを送信
-        $response = Http::withHeaders($headers)->get($endpoint);
+            // Spotify APIに最近再生したトラックを取得するリクエストを送信
+            $response = Http::withHeaders($headers)->get($endpoint)->throw();
+            // レスポンスが JSON データを含む場合
+            $responseData = $response->json();
 
-        // エラーハンドリング - レスポンスがエラーを含む場合
-        if ($response->failed()) {
-            Log::error('Failed to get recently played tracks. Response: ' . $response->body());
-            return null;
-        }
+            // レスポンスからトラックのデータを取得
+            $tracks = isset($responseData['items']) ? $responseData['items'] : [];
 
-        // レスポンスが JSON データを含む場合
-        $responseData = $response->json();
-
-        // トラック情報が含まれているか確認
-        if (isset($responseData['items']) && count($responseData['items']) > 0) {
-            return $responseData['items'];
-        } else {
-            Log::error('No recently played tracks found in Spotify API response.');
-            return null;
+            // フィルタリング
+            $filteredTracks = array_filter($tracks, function ($track) use ($startDate, $endDate) {
+                $playedAt = Carbon::parse($track['played_at']);
+                return $playedAt->between($startDate, $endDate);
+            });
+            return $filteredTracks;
+        } catch (\Exception $e) {
+            // エラーハンドリング - レスポンスがエラーを含む場合
+            Log::error('Failed to get recently played tracks. Error: ' . $e->getMessage());
+            return [];
         }
     }
     /*
@@ -238,8 +243,8 @@ class PlaylistCreateController extends Controller
 
         // 2. メソッドを呼び出してプレイリストを作成
         $response = $this->post(route('createPlaylist'), [
-            'start_date' => '2024-01-01',
-            'end_date' => '2024-01-10',
+            'start_date' => '2024-01-18',
+            'end_date' => '2024-01-18',
             'playlist_name' => 'MyPlaylist',
         ]);
 
@@ -263,4 +268,38 @@ class PlaylistCreateController extends Controller
         // 6. レスポンスにSpotifyのリンクが含まれているかどうかを確認
         $response->assertSee('spotify.com'); // これは適切なリンクに変更する必要があります
     }
+
+    public function addPlaylistItems($playlistId, $user, $trackUris)
+    {
+        // 最新の履歴レコードを取得
+        // $uri = History::inRandomOrder()->value('spotify_uris');
+        // 配列に変換
+        // $uris = [$uri];
+        //$uris = History::pluck('spotify_uris')->toArray();
+        // Spotify API エンドポイント
+        $endpoint = "https://api.spotify.com/v1/playlists/{$playlistId}/tracks";
+
+        // Spotify API リクエストに必要なヘッダー
+        $headers = [
+            'Authorization' => 'Bearer ' . $user->access_token,
+            'Content-Type' => 'application/json',
+        ];
+
+        $data = [
+            'uris' => $trackUris
+        ];
+
+        // Spotify API にプレイリストを公開にするリクエストを送信
+        $response = Http::withHeaders($headers)->post($endpoint, $data);
+
+        // エラーハンドリング - レスポンスがエラーを含む場合
+        if ($response->failed()) {
+            Log::error('Failed to add playlist items on Spotify. Response: ' . $response->body());
+            // 適切なエラーレスポンスを返すか、例外をスローするなど
+            return false;
+        }
+
+        return;
+    }
+
 }

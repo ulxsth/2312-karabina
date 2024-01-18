@@ -4,19 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up()
     {
         Schema::create('histories', function (Blueprint $table) {
-            $table->id(); 
+            $table->id();
             $table->string('track_id'); // Spotifyからの文字列であると仮定
-            $table->integer('play_count');
-            $table->dateTime('start_date');  // 修正: start_date を追加
-            $table->dateTime('end_date');    // 修正: end_date を追加
+            $table->integer('popularity');
+            $table->string('spotify_uris');
+            $table->dateTime('played_at')->nullable();
+            $table->dateTime('start_date')->nullable()->default(null);
+            $table->dateTime('end_date')->nullable()->default(null);
             $table->timestamps();
         });
 

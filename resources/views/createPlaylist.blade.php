@@ -11,11 +11,11 @@
     <form action="{{ route('createPlaylist') }}" method="post">
         @csrf
         <label for="start_date">Start Date:</label>
-        <input type="text" name="start_date" id="start_date" value="2024-01-01">
+        <input type="text" name="start_date" id="start_date" value="2024-01-18">
         <br>
 
         <label for="end_date">End Date:</label>
-        <input type="text" name="end_date" id="end_date" value="2024-01-10">
+        <input type="text" name="end_date" id="end_date" value="2024-01-18">
         <br>
 
         <label for="playlist_name">Playlist Name:</label>
