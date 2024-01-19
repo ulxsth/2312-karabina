@@ -173,3 +173,11 @@ a:hover div:nth-child(4){
 	transform: scale(1.2,1.2);
 	text-shadow: 0 0 12px white, 0 0 40px white, 0 0 80px white;
 }
+
+input{
+	font-size: 20px;
+	font-family: 'Dela Gothic One', sans-serif;
+	color: #087285;
+	border: solid 2px;
+	background-color: rgba(255,255,255,0.3);
+}
